@@ -1,7 +1,7 @@
 //interface for data queries
 public interface AirlineDataQueries{
   //load dataset
-  public int loadDataset(String filePath) throws IOException
+  int loadDataset(String filePath) throws IOException
   //exact match query
   /**
   * Returns all records that exactly match the specified
@@ -14,12 +14,12 @@ public interface AirlineDataQueries{
   /**
   * Returns all records where the specified attribute falls
   within the given range.
-  * @param attribute The attribute/field to query on
+  * @param attribute The attribute/field to query on - # of flights delayed
   * @param lowerBound The lower bound of the range (inclusive)
   * @param upperBound The upper bound of the range (inclusive)
-  * @return A collection of records matching the criteria
+  * @return months/time where the number of delayed flights was within the range
   */
-  List<Flights> delaysGreaterThan(String attribute, Comparable lowerBound);
+  List<Flights> delaysGreaterThan(String attribute, Comparable lowerBound, Comparable upperBound);
   
   
   * Returns the average value of the specified attribute during
