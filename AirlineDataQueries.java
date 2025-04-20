@@ -10,7 +10,7 @@ public interface AirlineDataQueries{
   * @param value The exact value to match
   * @return A collection of records matching the criteria
   */
-  List<T> exactMatchQuery(String attribute, Object value);
+  List<T> flightsFromAirport(String attribute, Object value);
   /**
   * Returns all records where the specified attribute falls
   within the given range.
@@ -19,18 +19,16 @@ public interface AirlineDataQueries{
   * @param upperBound The upper bound of the range (inclusive)
   * @return A collection of records matching the criteria
   */
-  List<T> rangeQuery(String attribute, Comparable lowerBound,
-  Comparable upperBound);
-  // Or
-  List<T> rangeQuery(String attribute, Comparable upperBound);
-  /**
+  List<T> delaysGreaterThan(String attribute, Comparable lowerBound);
+  
+  
   * Returns the average value of the specified attribute during
   a given time frame
   * @param attribute The attribute/field
   * @param startTime The start time of the period (inclusive)
   * @param endTime The end time of the period (inclusive)
   * @return The statistic calculated */
-  List<T> averageQuery(String attribute, timeStamp startTime,
+  List<T> averageTimeDelayed(String attribute, timeStamp startTime,
   timeStamp endTime);
 
 }
