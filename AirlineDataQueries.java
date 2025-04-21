@@ -1,7 +1,7 @@
 //interface for data queries
 public interface AirlineDataQueries{
   //load dataset
-  int loadDataset(String filePath) throws IOException
+  int loadDataset(String filePath) throws IOException;
   //exact match query
   /**
   * Returns all records that exactly match the specified
