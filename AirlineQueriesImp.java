@@ -117,11 +117,11 @@ public class AirlineQueriesImp implements AirlineDataQueries{
     for (Flights flight : records) {
         try {
             // Parse the total minutes delayed as a double
-            double delayMinutes = Double.parseDouble(flight.getTotalMinutesDelayed());
+            double delayMinutes = flight.getTotalMinsDelayed();
             sumOfDelays += delayMinutes; // Add to running total
             count++;                     // Increase count of valid flights
         } catch (NumberFormatException e) {
-            System.out.println("Skipping invalid delay time: " + flight.getTotalMinutesDelayed());
+            System.out.println("Skipping invalid delay time: " + flight.getTotalMinsDelayed());
         }
     }
 
