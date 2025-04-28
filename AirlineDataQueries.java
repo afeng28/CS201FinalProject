@@ -30,7 +30,7 @@ public interface AirlineDataQueries{
   * @param startTime The start time of the period (inclusive)
   * @param endTime The end time of the period (inclusive)
   * @return The statistic calculated */
-  List<Flights> averageTimeDelayed(String attribute, String startTime,
+  double averageTimeDelayed(String attribute, String startTime,
   String endTime);
 
 }

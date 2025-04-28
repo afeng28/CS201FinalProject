@@ -104,7 +104,9 @@ public class AirlineQueriesImp implements AirlineDataQueries{
         return result;
     }
 
-  public double computeAverageTotalDelay() {
+  @Override  
+  public double averageTimeDelayed(String attribute, String startTime,
+  String endTime) {
     // If no records are loaded, return 0 to avoid division by zero
     if (records.isEmpty()) {
         return 0.0;
