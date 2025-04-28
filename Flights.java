@@ -45,11 +45,11 @@ public class Flights {
   public int getYear() {
     return year;
   }
-  private int getFlightsDelayed(){
+  public int getFlightsDelayed(){
     return flightsDelayed;
   }
 
-  private int getTotalFlights(){
+  public int getTotalFlights(){
     return totalFlights;
   }
   

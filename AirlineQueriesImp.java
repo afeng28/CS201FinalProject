@@ -75,14 +75,34 @@ public class AirlineQueriesImp implements AirlineDataQueries{
     return airportCodeIndex.getOrDefault(code, Collections.emptyList());
   }
 
-  @Override
-  public List<Flights> delaysGreaterThan(String flightsDelayed, Comparable lowerBound, Comparable upperBound){
-    List<Flights> delays = new ArrayList<>();
-    for(Flights flight : records){
-
+    @Override
+    public List<Flights> delaysGreaterThan(String attribute, Comparable lowerBound, Comparable upperBound) {
+        List<Flights> result = new ArrayList<>();
+        
+        // Validate input
+        if (!"Flights.Delayed".equals(attribute) ){
+            return Collections.emptyList();
+        }
+        
+        // Iterate through all flights
+        for (Flights flight : records) {
+            try {
+                int delay = flight.getFlightsDelayed(); // 
+                
+                // Check if delay is within bounds
+                boolean satisfiesLower = (lowerBound == null) || (lowerBound.compareTo(delay) <= 0);
+                boolean satisfiesUpper = (upperBound == null) || (upperBound.compareTo(delay) >= 0);
+                
+                if (satisfiesLower && satisfiesUpper) {
+                    result.add(flight);
+                }
+            } catch (Exception e) {
+                System.err.println("Error processing flight: " + flight + " | Error: " + e.getMessage());
+            }
+        }
+        
+        return result;
     }
-    return delays;
-  }
 
   public double computeAverageTotalDelay() {
     // If no records are loaded, return 0 to avoid division by zero
