@@ -8,38 +8,66 @@ public class AirlineQueriesImp implements AirlineDataQueries{
   private List<Flights> records = new ArrayList<>();
   private Map<String, List<Flights>> airportCodeIndex = new HashMap<>();
   
-  public int loadDataset(String csvFile) {
+public int loadDataset(String csvFile) {
+    int recordsLoaded = 0; // Track how many records were successfully loaded
     String line;
     String csvSplitBy = ",";
+    List<Flights> records = new ArrayList<>();
+
     try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            //Read/skip first line (headers)
-            line = br.readLine();
-            // Read each line from the CSV file
-            while ((line = br.readLine()) != null) {
+        // Read/skip first line (headers)
+        br.readLine(); // Discard header line (no need to store it)
 
-                // Split the line by comma and add to records
-                String[] values = line.split(csvSplitBy);
-                //replace with correct values here
-               Flights tmp = new Flights(
-                values[2],  // airportCode
-                values[6],  // carrierName
-                values[3],  // airportName
-                Integer.parseInt(values[18]),  // totalMinsDelayed
-                Integer.parseInt(values[7]),   // totalFlights
-                values[21],  // timeLabel
-                Integer.parseInt(values[4]),   // month
-                Integer.parseInt(values[5]),   // year
-                Integer.parseInt(values[8])    // flightsDelayed
-);
+        // Read each line from the CSV file
+        while ((line = br.readLine()) != null) {
+            try {
+                // Trim and split the line by comma (handles extra whitespace)
+                String[] values = line.trim().split(csvSplitBy);
+
+                // Validate that the line has enough columns
+                if (values.length < 23) { // Ensure all expected columns exist
+                    System.err.println("Skipping malformed line: " + line);
+                    continue;
+                }
+
+                // Parse values safely (handle NumberFormatException)
+                Flights tmp = new Flights(
+                    values[0].trim(),       // airportCode
+                    values[1].trim(),       // carrierName
+                    values[2].trim(),       // airportName
+                    Integer.parseInt(values[3].trim()),  // totalMinsDelayed
+                    Integer.parseInt(values[4].trim()),  // totalFlights
+                    values[11].trim(),      // timeLabel
+                    Integer.parseInt(values[15].trim()), // month
+                    Integer.parseInt(values[18].trim()), // year
+                    Integer.parseInt(values[22].trim())  // flightsDelayed
+                );
+
                 records.add(tmp);
+                recordsLoaded++; // Increment successful load count
+            } catch (NumberFormatException e) {
+                System.err.println("Skipping line due to number parsing error: " + line);
+            } catch (Exception e) {
+                System.err.println("Error processing line: " + line + " | Error: " + e.getMessage());
             }
+        }
 
-            // Print the imported data
-            System.out.println("Imported CSV data:");
-            for (Flights record : records) {
-                System.out.println(record);
-            }
-  }
+        // Print the imported data (optional)
+        System.out.println("Imported " + recordsLoaded + " records:");
+        for (Flights record : records) {
+            System.out.println(record);
+        }
+
+    } catch (FileNotFoundException e) {
+        System.err.println("Error: CSV file not found: " + csvFile);
+        return -1; // Indicate failure
+    } catch (IOException e) {
+        System.err.println("Error reading CSV file: " + e.getMessage());
+        return -1;
+    }
+
+    return recordsLoaded; // Return the number of successfully loaded records
+}
 
   public List<Flights> flightsFromAirport(String attribute, Object value) {
     if(!"Airport.Code".equals(attribute) || value  == null) {
