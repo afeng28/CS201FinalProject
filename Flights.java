@@ -10,10 +10,9 @@ public static class Flights {
   private int flightsDelayed;
   
 
- public Flights (String airportCode, String timeLabel, int month, int year, String carrierName, int flightsDelayed, int totalMinsDelayed, int totalFlights) {
+ public Flights (String airportCode, String airportName, String timeLabel, int month, int year, String carrierName, int flightsDelayed, int totalMinsDelayed, int totalFlights) {
     this.airportCode = airportCode;
     this.airportName = airportName;
-    
     this.timeLabel = timeLabel;
     this.month = month;
     this.year = year;
