@@ -10,16 +10,17 @@ public static class Flights {
   private int flightsDelayed;
   
 
-  public Flights (String airportCode, String carrierName) {
+ public Flights (String airportCode, String timeLabel, int month, int year, String carrierName, int flightsDelayed, int totalMinsDelayed, int totalFlights) {
     this.airportCode = airportCode;
-    this.carrierName = carrierName;
     this.airportName = airportName;
-    this.totalMinsDelayed = totalMinsDelayed;
-    this.totalFlights = totalFlights;
+    
     this.timeLabel = timeLabel;
     this.month = month;
     this.year = year;
+    this.carrierName = carrierName;
     this.flightsDelayed = flightsDelayed;
+    this.totalMinsDelayed = totalMinsDelayed;
+    this.totalFlights = totalFlights;
   }
 
   public String getAirportCode() {
