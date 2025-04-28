@@ -3,6 +3,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+
+private Map<String, List<Flights>> airportCodeIndex = new HashMap<>();
 public class AirlineQueriesImp implements AirlineDataQueries{
   List<Flights> records;
   @Override
@@ -42,6 +44,7 @@ public class AirlineQueriesImp implements AirlineDataQueries{
                 );
 
                 records.add(tmp);
+                airportCodeIndex.computeIfAbsent(tmp.getAirportCode(), k -> new ArrayList<>()).add(tmp);
                 recordsLoaded++; // Increment successful load count
             } catch (NumberFormatException e) {
                 System.err.println("Skipping line due to number parsing error: " + line);
