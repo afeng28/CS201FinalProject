@@ -32,16 +32,16 @@ public class AirlineQueriesImp implements AirlineDataQueries{
 
                 // Parse values safely (handle NumberFormatException)
                 Flights tmp = new Flights(
-                    values[0].trim(),       // airportCode
-                    values[1].trim(),       // carrierName
-                    values[2].trim(),       // airportName
-                    Integer.parseInt(values[3].trim()),  // month
-                    Integer.parseInt(values[4].trim()),  // year
-                    values[11].trim(),      // timeLabel
-                    Integer.parseInt(values[14].trim()), // flights delayed
-                    Integer.parseInt(values[17].trim()), // flights total
-                    Integer.parseInt(values[22].trim())  // mins delayed total
-                );
+                  values[0].trim(),  // airportCode
+                  values[1].trim(),  // airportName
+                  values[11].trim(), // timeLabel
+                  Integer.parseInt(values[3].trim()), // month
+                  Integer.parseInt(values[4].trim()), // year
+                  values[6].trim(),  // carrierName
+                  Integer.parseInt(values[14].trim()), // flightsDelayed
+                  Integer.parseInt(values[17].trim()), // totalFlights
+                  Integer.parseInt(values[22].trim())  // totalMinsDelayed
+                  );
 
                 records.add(tmp);
                 airportCodeIndex.computeIfAbsent(tmp.getAirportCode(), k -> new ArrayList<>()).add(tmp);
