@@ -13,6 +13,13 @@ public static class Flights {
   public Flights (String airportCode, String carrierName) {
     this.airportCode = airportCode;
     this.carrierName = carrierName;
+    this.airportName = airportName;
+    this.totalMinsDelayed = totalMinsDelayed;
+    this.totalFlights = totalFlights;
+    this.timeLabel = timeLabel;
+    this.month = month;
+    this.year = year;
+    this.flightsDelayed = flightsDelayed;
   }
 
   public String getAirportCode() {
