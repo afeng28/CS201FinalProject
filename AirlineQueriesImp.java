@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 public class AirlineQueriesImp implements AirlineDataQueries{
-  
+  @Override
   public int loadDataset(String csvFile) {
     int recordsLoaded = 0; // Track how many records were successfully loaded
     String line;
@@ -66,7 +66,7 @@ public class AirlineQueriesImp implements AirlineDataQueries{
 
     return recordsLoaded; // Return the number of successfully loaded records
 }
-
+  @Override  
   public List<Flights> flightsFromAirport(String attribute, Object value) {
     if(!"Airport.Code".equals(attribute) || value  == null) {
       return Collections.emptyList();
@@ -74,7 +74,11 @@ public class AirlineQueriesImp implements AirlineDataQueries{
     String code = value.toString();
     return airportCodeIndex.getOrDefault(code, Collections.emptyList());
   }
-
+  @Override
+  public List<Flights> delaysGreaterThan(String attribute, Comparable lowerBound, Comparable upperBound){
+    List<Flights> records = new ArrayList<>();
+    return records;
+  }
   
   
 }
