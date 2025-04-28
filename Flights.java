@@ -1,4 +1,4 @@
-public static class Flights {
+public class Flights {
   private String airportCode;
   private String carrierName;
   private String airportName;
@@ -10,7 +10,7 @@ public static class Flights {
   private int flightsDelayed;
   
 
- public Flights (String airportCode, String airportName, String timeLabel, int month, int year, String carrierName, int flightsDelayed, int totalMinsDelayed, int totalFlights) {
+  public Flights (String airportCode, String airportName, String timeLabel, int month, int year, String carrierName, int flightsDelayed, int totalFlights, int totalMinsDelayed) {
     this.airportCode = airportCode;
     this.airportName = airportName;
     this.timeLabel = timeLabel;
@@ -18,8 +18,9 @@ public static class Flights {
     this.year = year;
     this.carrierName = carrierName;
     this.flightsDelayed = flightsDelayed;
-    this.totalMinsDelayed = totalMinsDelayed;
     this.totalFlights = totalFlights;
+    this.totalMinsDelayed = totalMinsDelayed;
+    
   }
 
   public String getAirportCode() {
@@ -35,7 +36,7 @@ public static class Flights {
   public int getTotalMinsDelayed() {
     return totalMinsDelayed;
   }
-  public string getTime(){
+  public String getTime(){
     return timeLabel;
   }
   public int getMonth() {
@@ -61,6 +62,6 @@ public static class Flights {
               ", year=" + year +
               ", flightsDelayed=" + flightsDelayed +
               '}';
-}
+  }
   
 }
