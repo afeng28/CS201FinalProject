@@ -48,6 +48,10 @@ public class Flights {
   private int getFlightsDelayed(){
     return flightsDelayed;
   }
+
+  private int getTotalFlights(){
+    return totalFlights;
+  }
   
   @Override
   public String toString() {
