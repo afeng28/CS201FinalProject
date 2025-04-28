@@ -7,7 +7,8 @@ public class AirlineQueriesImp implements AirlineDataQueries{
   
   private List<Flights> records = new ArrayList<>();
   private Map<String, List<Flights>> airportCodeIndex = new HashMap<>();
-  
+
+@Override  
 public int loadDataset(String csvFile) {
     int recordsLoaded = 0; // Track how many records were successfully loaded
     String line;
@@ -69,6 +70,7 @@ public int loadDataset(String csvFile) {
     return recordsLoaded; // Return the number of successfully loaded records
 }
 
+  @Override
   public List<Flights> flightsFromAirport(String attribute, Object value) {
     if(!"Airport.Code".equals(attribute) || value  == null) {
       return Collections.emptyList();
@@ -76,5 +78,6 @@ public int loadDataset(String csvFile) {
     String code = value.toString();
     return airportCodeIndex.getOrDefault(code, Collections.emptyList());
   }
+
   
 }
