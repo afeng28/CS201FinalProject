@@ -1,15 +1,12 @@
+import com.sun.jdi.IntegerType;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.*;
 public class AirlineQueriesImp implements AirlineDataQueries{
   
-  private List<Flights> records = new ArrayList<>();
-  private Map<String, List<Flights>> airportCodeIndex = new HashMap<>();
-
-@Override  
-public int loadDataset(String csvFile) {
+  public int loadDataset(String csvFile) {
     int recordsLoaded = 0; // Track how many records were successfully loaded
     String line;
     String csvSplitBy = ",";
@@ -70,7 +67,6 @@ public int loadDataset(String csvFile) {
     return recordsLoaded; // Return the number of successfully loaded records
 }
 
-  @Override
   public List<Flights> flightsFromAirport(String attribute, Object value) {
     if(!"Airport.Code".equals(attribute) || value  == null) {
       return Collections.emptyList();
@@ -79,5 +75,6 @@ public int loadDataset(String csvFile) {
     return airportCodeIndex.getOrDefault(code, Collections.emptyList());
   }
 
+  
   
 }
