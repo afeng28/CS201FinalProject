@@ -20,9 +20,17 @@ public class AirlineQueriesImp implements AirlineDataQueries{
                 // Split the line by comma and add to records
                 String[] values = line.split(csvSplitBy);
                 //replace with correct values here
-                Flights tmp = new Flights(values[2], values[6],
-                        Double.parseDouble(values[18]),
-                        values[21]);
+               Flights tmp = new Flights(
+                values[2],  // airportCode
+                values[6],  // carrierName
+                values[3],  // airportName
+                Integer.parseInt(values[18]),  // totalMinsDelayed
+                Integer.parseInt(values[7]),   // totalFlights
+                values[21],  // timeLabel
+                Integer.parseInt(values[4]),   // month
+                Integer.parseInt(values[5]),   // year
+                Integer.parseInt(values[8])    // flightsDelayed
+);
                 records.add(tmp);
             }
 
