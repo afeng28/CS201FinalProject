@@ -79,6 +79,30 @@ public class AirlineQueriesImp implements AirlineDataQueries{
     List<Flights> records = new ArrayList<>();
     return records;
   }
+
+  public double computeAverageTotalDelay() {
+    // If no records are loaded, return 0 to avoid division by zero
+    if (records.isEmpty()) {
+        return 0.0;
+    }
+
+    double sumOfDelays = 0.0;  // To accumulate total delay minutes
+    int count = 0;             // To count valid records
+
+    // Loop through all flight records
+    for (Flights flight : records) {
+        try {
+            // Parse the total minutes delayed as a double
+            double delayMinutes = Double.parseDouble(flight.getTotalMinutesDelayed());
+            sumOfDelays += delayMinutes; // Add to running total
+            count++;                     // Increase count of valid flights
+        } catch (NumberFormatException e) {
+            System.out.println("Skipping invalid delay time: " + flight.getTotalMinutesDelayed());
+        }
+    }
+
+    return sumOfDelays / count; // Computes the average and returns
+}
   
   
 }
