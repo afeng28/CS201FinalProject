@@ -38,7 +38,8 @@ public class AirlineQueriesImp implements AirlineDataQueries{
                     values[11].trim(),      // timeLabel
                     Integer.parseInt(values[15].trim()), // month
                     Integer.parseInt(values[18].trim()), // year
-                    Integer.parseInt(values[22].trim())  // flightsDelayed
+                    Integer.parseInt(values[22].trim()),  // flightsDelayed
+                    Integer.parseInt(values[17])          // Total Flights (parsed as int)
                 );
 
                 records.add(tmp);
