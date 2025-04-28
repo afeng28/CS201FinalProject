@@ -1,10 +1,10 @@
-import com.sun.jdi.IntegerType;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 public class AirlineQueriesImp implements AirlineDataQueries{
+  List<Flights> records;
   @Override
   public int loadDataset(String csvFile) {
     int recordsLoaded = 0; // Track how many records were successfully loaded
@@ -33,11 +33,11 @@ public class AirlineQueriesImp implements AirlineDataQueries{
                     values[0].trim(),       // airportCode
                     values[1].trim(),       // carrierName
                     values[2].trim(),       // airportName
-                    Integer.parseInt(values[3].trim()),  // totalMinsDelayed
-                    Integer.parseInt(values[4].trim()),  // totalFlights
+                    Integer.parseInt(values[3].trim()),  // month
+                    Integer.parseInt(values[4].trim()),  // year
                     values[11].trim(),      // timeLabel
-                    Integer.parseInt(values[15].trim()), // month
-                    Integer.parseInt(values[18].trim()), // year
+                    Integer.parseInt(values[15].trim()), // total mins flights
+                    Integer.parseInt(values[18].trim()), // total flights
                     Integer.parseInt(values[22].trim())  // flightsDelayed
                 );
 
@@ -74,10 +74,14 @@ public class AirlineQueriesImp implements AirlineDataQueries{
     String code = value.toString();
     return airportCodeIndex.getOrDefault(code, Collections.emptyList());
   }
+
   @Override
-  public List<Flights> delaysGreaterThan(String attribute, Comparable lowerBound, Comparable upperBound){
-    List<Flights> records = new ArrayList<>();
-    return records;
+  public List<Flights> delaysGreaterThan(String flightsDelayed, Comparable lowerBound, Comparable upperBound){
+    List<Flights> delays = new ArrayList<>();
+    for(Flights flight : records){
+
+    }
+    return delays;
   }
 
   public double computeAverageTotalDelay() {
