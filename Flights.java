@@ -22,4 +22,25 @@ public static class Flights {
   public String getCarrierName() {
     return carrierName;
   }
+  public String getAirportName() {
+    return airportName;
+  }
+  public int getTotalMinsDelayed() {
+    return totalMinsDelayed;
+  }
+  public string getTime(){
+    return timeLabel;
+  }
+  public int getMonth() {
+    return month;
+  }
+  public int getYear() {
+    return year;
+  }
+  private int getFlightsDelayed(){
+    return flightsDelayed;
+  }
+  
+
+  
 }
