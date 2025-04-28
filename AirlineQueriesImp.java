@@ -10,7 +10,7 @@ public class AirlineQueriesImp implements AirlineDataQueries{
     int recordsLoaded = 0; // Track how many records were successfully loaded
     String line;
     String csvSplitBy = ",";
-    List<Flights> records = new ArrayList<>();
+    records = new ArrayList<>();
 
     try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
         // Read/skip first line (headers)
