@@ -29,6 +29,13 @@ public class AirlineQueriesImp implements AirlineDataQueries{
                 System.out.println(record);
             }
   }
-  //other query search implementations below
+
+  public List<Flights> flightsFromAirport(String attribute, Object value) {
+    if(!"Airport.Code".equals(attribute) || value  == null) {
+      return Collections.emptyList();
+    }
+    String code = value.toString();
+    return airportCodeIndex.getOrDefault(code, Collections.emptyList());
+  }
   
 }
