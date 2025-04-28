@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.*;
 public class AirlineQueriesImp implements AirlineDataQueries{
   
+  private List<Flights> records = new ArrayList<>();
+  private Map<String, List<Flights>> airportCodeIndex = new HashMap<>();
+  
   public int loadDataset(String csvFile) {
     String line;
     String csvSplitBy = ",";
