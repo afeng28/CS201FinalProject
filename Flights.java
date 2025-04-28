@@ -1,6 +1,9 @@
 public static class Flights {
   private String airportCode;
   private String carrierName;
+  private String airportName;
+  private int totalMinsDelayed;
+  
 
   public Flights (String airportCode, String carrierName) {
     this.airportCode = airportCode;
