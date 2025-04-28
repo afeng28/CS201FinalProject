@@ -48,6 +48,19 @@ public static class Flights {
     return flightsDelayed;
   }
   
-
+  @Override
+  public String toString() {
+      return "AirportStats{" +
+              "airportCode='" + airportCode + '\'' +
+              ", carrierName='" + carrierName + '\'' +
+              ", airportName='" + airportName + '\'' +
+              ", totalMinsDelayed=" + totalMinsDelayed +
+              ", totalFlights=" + totalFlights +
+              ", timeLabel='" + timeLabel + '\'' +
+              ", month=" + month +
+              ", year=" + year +
+              ", flightsDelayed=" + flightsDelayed +
+              '}';
+}
   
 }
