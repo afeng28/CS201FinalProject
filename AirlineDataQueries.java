@@ -21,13 +21,14 @@ public interface AirlineDataQueries{
   */
   List<Flights> delaysGreaterThan(String attribute, Comparable lowerBound, Comparable upperBound);
   
-  
+  /**
   * Returns the average value of the specified attribute during
   a given time frame
   * @param attribute The attribute/field
   * @param startTime The start time of the period (inclusive)
   * @param endTime The end time of the period (inclusive)
-  * @return The statistic calculated */
+  * @return The statistic calculated
+  */
   List<Flights> averageTimeDelayed(String attribute, timeStamp startTime,
   timeStamp endTime);
 
