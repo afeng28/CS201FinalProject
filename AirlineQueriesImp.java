@@ -9,6 +9,7 @@ public class AirlineQueriesImp implements AirlineDataQueries {
     private List<Flights> records;
     private Map<String, List<Flights>> airportCodeIndex = new HashMap<>();
     private Map<YearMonth, List<Flights>> dateIndex = new HashMap<>();
+    private TreeMap<Integer, List<Flights>> delayTree = new TreeMap<>();
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy/MM");
 
     public AirlineQueriesImp(List<Flights> dataset) {
@@ -23,6 +24,7 @@ public class AirlineQueriesImp implements AirlineDataQueries {
     private void buildIndices() {
         airportCodeIndex.clear();
         dateIndex.clear();
+        delayTree.clear();
         
         for (Flights flight : records) {
             // Build airport code index
@@ -31,6 +33,9 @@ public class AirlineQueriesImp implements AirlineDataQueries {
             // Build date index
             YearMonth date = YearMonth.of(flight.getYear(), flight.getMonth());
             dateIndex.computeIfAbsent(date, k -> new ArrayList<>()).add(flight);
+            
+            // Build delay tree index
+            delayTree.computeIfAbsent(flight.getFlightsDelayed(), k -> new ArrayList<>()).add(flight);
         }
     }
 
@@ -125,18 +130,27 @@ public class AirlineQueriesImp implements AirlineDataQueries {
             return Collections.emptyList();
         }
         
-        for (Flights flight : records) {
-            try {
-                int delay = flight.getFlightsDelayed();
-                boolean satisfiesLower = (lowerBound == null) || (lowerBound.compareTo(delay) <= 0);
-                boolean satisfiesUpper = (upperBound == null) || (upperBound.compareTo(delay) >= 0);
-                
-                if (satisfiesLower && satisfiesUpper) {
-                    result.add(flight);
-                }
-            } catch (Exception e) {
-                System.err.println("Error processing flight: " + flight + " | Error: " + e.getMessage());
-            }
+        // Convert bounds to Integer
+        Integer min = (lowerBound != null) ? (Integer) lowerBound : null;
+        Integer max = (upperBound != null) ? (Integer) upperBound : null;
+        
+        // Use the TreeMap's subMap method for efficient range query
+        NavigableMap<Integer, List<Flights>> subMap;
+        
+        if (min != null && max != null) {
+            subMap = delayTree.subMap(min, true, max, true);
+        } else if (min != null) {
+            subMap = delayTree.tailMap(min, true);
+        } else if (max != null) {
+            subMap = delayTree.headMap(max, true);
+        } else {
+            // No bounds provided, return all flights
+            return new ArrayList<>(records);
+        }
+        
+        // Collect all flights in the range
+        for (List<Flights> flights : subMap.values()) {
+            result.addAll(flights);
         }
         
         return result;
