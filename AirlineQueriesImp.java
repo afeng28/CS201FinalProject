@@ -1,51 +1,45 @@
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-private Map<String, List<Flights>> airportCodeIndex = new HashMap<>();
+
 public class AirlineQueriesImp implements AirlineDataQueries{
-  List<Flights> records;
+  private List<Flights> records;
+  private Map<String, List<Flights>> airportCodeIndex = new HashMap<>();
   @Override
-  public int loadDataset(String csvFile) {
-    int recordsLoaded = 0; // Track how many records were successfully loaded
-    String line;
-    String csvSplitBy = ",";
+public int loadDataset(String csvFile) {
+    int recordsLoaded = 0;
     records = new ArrayList<>();
 
     try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-        // Read/skip first line (headers)
-        br.readLine(); // Discard header line (no need to store it)
+        br.readLine(); // Skip header
 
-        // Read each line from the CSV file
+        String line;
         while ((line = br.readLine()) != null) {
             try {
-                // Trim and split the line by comma (handles extra whitespace)
-                String[] values = line.trim().split(csvSplitBy);
-
-                // Validate that the line has enough columns
-                if (values.length < 23) { // Ensure all expected columns exist
-                    System.err.println("Skipping malformed line: " + line);
+                List<String> values = parseCsvLine(line);
+                
+                if (values.size() < 23) {
+                    System.err.println("Skipping malformed line (not enough columns): " + line);
                     continue;
                 }
 
-                // Parse values safely (handle NumberFormatException)
                 Flights tmp = new Flights(
-                  values[0].trim(),  // airportCode
-                  values[1].trim(),  // airportName
-                  values[11].trim(), // timeLabel
-                  Integer.parseInt(values[3].trim()), // month
-                  Integer.parseInt(values[4].trim()), // year
-                  values[6].trim(),  // carrierName
-                  Integer.parseInt(values[14].trim()), // flightsDelayed
-                  Integer.parseInt(values[17].trim()), // totalFlights
-                  Integer.parseInt(values[22].trim())  // totalMinsDelayed
-                  );
+                    values.get(0).trim(),  // airportCode
+                    values.get(1).trim(),  // airportName
+                    values.get(2),         // timeLabel
+                    Integer.parseInt(values.get(3)), // month
+                    Integer.parseInt(values.get(5)), // year
+                    values.get(11).trim(), // carrierName
+                    Integer.parseInt(values.get(19)), // flightsDelayed
+                    Integer.parseInt(values.get(22)), // totalFlights
+                    Integer.parseInt(values.get(23)) // totalMinsDelayed
+                );
 
                 records.add(tmp);
                 airportCodeIndex.computeIfAbsent(tmp.getAirportCode(), k -> new ArrayList<>()).add(tmp);
-                recordsLoaded++; // Increment successful load count
+                recordsLoaded++;
             } catch (NumberFormatException e) {
                 System.err.println("Skipping line due to number parsing error: " + line);
             } catch (Exception e) {
@@ -53,21 +47,47 @@ public class AirlineQueriesImp implements AirlineDataQueries{
             }
         }
 
-        // Print the imported data (optional)
         System.out.println("Imported " + recordsLoaded + " records:");
-        for (Flights record : records) {
-            System.out.println(record);
-        }
-
-    } catch (FileNotFoundException e) {
-        System.err.println("Error: CSV file not found: " + csvFile);
-        return -1; // Indicate failure
     } catch (IOException e) {
-        System.err.println("Error reading CSV file: " + e.getMessage());
+        System.err.println("Error reading file: " + e.getMessage());
         return -1;
     }
+    return recordsLoaded;
+}
 
-    return recordsLoaded; // Return the number of successfully loaded records
+/**
+ * Parses a CSV line, handling quoted fields with commas
+ */
+private List<String> parseCsvLine(String line) {
+    List<String> values = new ArrayList<>();
+    StringBuilder currentValue = new StringBuilder();
+    boolean inQuotes = false;
+
+    for (int i = 0; i < line.length(); i++) {
+        char c = line.charAt(i);
+        
+        if (c == '"') {
+            // Toggle quote state
+            inQuotes = !inQuotes;
+            
+            // Handle double quotes (escaped quotes in CSV)
+            if (inQuotes && i > 0 && line.charAt(i-1) == '"') {
+                currentValue.append('"');
+            }
+        } else if (c == ',' && !inQuotes) {
+            // End of field
+            values.add(currentValue.toString());
+            currentValue = new StringBuilder();
+        } else {
+            // Regular character
+            currentValue.append(c);
+        }
+    }
+    
+    // Add the last field
+    values.add(currentValue.toString());
+    
+    return values;
 }
   @Override  
   public List<Flights> flightsFromAirport(String attribute, Object value) {
